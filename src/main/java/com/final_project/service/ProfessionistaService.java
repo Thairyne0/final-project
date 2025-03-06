@@ -20,7 +20,7 @@ public class ProfessionistaService {
 
     @Transactional
     public Professionista creaProfiloProfessionista(ProfessionistaRequest professionistaRequest) {
-        Utente utente = utenteRepository.findByIdUtente(professionistaRequest.getUtenteId())
+        Utente utente = utenteRepository.findById(professionistaRequest.getUtenteId())
                 .orElseThrow(() -> new RuntimeException("Utente non trovato"));
 
         if (utente.getProfessionista() != null) {

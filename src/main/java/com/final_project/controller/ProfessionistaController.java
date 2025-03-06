@@ -14,8 +14,8 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/clienti")
-@Tag(name = "Clienti", description = "Gestione clienti")
+@RequestMapping("/api/professionisti")
+@Tag(name = "Professionisti", description = "Gestione professionisti")
 public class ProfessionistaController {
 
     private final ProfessionistaService professionistaService;
