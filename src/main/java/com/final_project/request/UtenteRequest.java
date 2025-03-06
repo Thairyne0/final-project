@@ -1,9 +1,6 @@
-package com.epicEnergyServices.request;
+package com.final_project.request;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,31 +10,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UtenteRequest {
 
-    @NotNull(message = "ID user is required")
-    private String idUtente;
-
-    @NotEmpty(message = "Username is required")
-    @Size(min = 3, max = 20,  message = "Username must be between 3 and 20 characters")
+    @NotBlank(message = "Lo username è obbligatorio")
+    @Size(min = 3, max = 20, message = "Lo username deve avere tra 3 e 20 caratteri")
     private String username;
 
-    @Email
-    @NotEmpty(message = "Email is required")
+    @NotBlank(message = "L'email è obbligatoria")
+    @Email(message = "Formato email non valido")
     private String email;
 
-    @NotEmpty(message = "Password is required")
-    @Size(min = 8, max = 20,  message = "Password must be between 8 and 20 characters")
+    @NotBlank(message = "La password è obbligatoria")
+    @Size(min = 6, message = "La password deve avere almeno 6 caratteri")
     private String password;
 
-    @NotNull(message = "Name is required")
+    @NotBlank(message = "Il nome è obbligatorio")
     private String nome;
 
-    @NotNull(message = "Surname is required")
+    @NotBlank(message = "Il cognome è obbligatorio")
     private String cognome;
 
-    @NotNull(message = "Role is required")
-    private String ruolo;
-
-
-
-
+    private Boolean isAPro;
 }
