@@ -1,5 +1,6 @@
 package com.final_project.controller;
 
+import com.final_project.DTO.UtenteDTO;
 import com.final_project.entity.Utente;
 import com.final_project.repository.UtenteRepository;
 import com.final_project.request.UtenteRequest;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/utenti")
+@CrossOrigin(origins = "http://localhost:5174")
 @Tag(name = "Utenti", description = "Gestione utenti")
 public class UtenteController {
 
@@ -29,12 +31,16 @@ public class UtenteController {
         return utenteRepository.findAll();
     }
 
-    @Operation(summary = "Crea un nuovo utente", description = "Restituisce l'utente creato")
-    @PostMapping
-    public ResponseEntity<Utente> creaUtente(@RequestBody UtenteRequest utenteRequest) {
-        Utente nuovoUtente = utenteService.creaUtente(utenteRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(nuovoUtente);
 
+    @Operation(summary = "Registra un nuovo utente", description = "Registra un nuovo utente")
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestBody UtenteDTO utenteDTO) {
+        try {
+            utenteService.registerUser(utenteDTO);
+            return ResponseEntity.ok("Utente registrato con successo");
+        }catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
 }
