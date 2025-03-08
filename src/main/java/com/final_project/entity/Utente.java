@@ -1,5 +1,6 @@
 package com.final_project.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,5 +24,6 @@ public class Utente {
     private Boolean isAPro;
 
     @OneToOne(mappedBy = "utente", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Professionista professionista;
 }

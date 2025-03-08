@@ -66,4 +66,16 @@ public class UtenteService {
 //
 //        return utenteRepository.save(utente);
 //    }
+
+    public String loginUser(String email, String password) {
+        Utente utente = utenteRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Utente non trovato"));
+
+        if (!passwordEncoder.matches(password, utente.getPassword())) {
+            throw new RuntimeException("Password errata");
+        }
+
+        return "Login effettuato con successo";
+    }
+
 }

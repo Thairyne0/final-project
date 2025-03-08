@@ -10,13 +10,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/professionisti")
+@CrossOrigin(origins = "http://localhost:5174")
 @Tag(name = "Professionisti", description = "Gestione professionisti")
 public class ProfessionistaController {
+    private final String UPLOAD_DIR = "uploads/mechanics/";
 
     private final ProfessionistaService professionistaService;
 
@@ -34,6 +41,22 @@ public class ProfessionistaController {
         Professionista nuovoProfessionista = professionistaService.creaProfiloProfessionista(professionistaRequestRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuovoProfessionista);
     }
+
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
+        try {
+            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            Path path = Paths.get(UPLOAD_DIR + fileName);
+            Files.createDirectories(path.getParent());
+            Files.write(path, file.getBytes());
+
+            return ResponseEntity.ok("/uploads/mechanics/" + fileName);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Errore durante l'upload");
+        }
+    }
+
 }
 
 

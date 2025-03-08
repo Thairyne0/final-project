@@ -1,6 +1,7 @@
 package com.final_project.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class Professionista {
         @OneToOne
         @MapsId
         @JoinColumn(name = "idProfessionista")
+        @JsonBackReference
         private Utente utente;
 
         private String nome;
@@ -32,5 +34,6 @@ public class Professionista {
         private String provincia;
         private String cap;
         private String email;
+        private String imagePath;
 
 }

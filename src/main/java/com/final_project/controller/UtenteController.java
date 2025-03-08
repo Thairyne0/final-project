@@ -3,6 +3,7 @@ package com.final_project.controller;
 import com.final_project.DTO.UtenteDTO;
 import com.final_project.entity.Utente;
 import com.final_project.repository.UtenteRepository;
+import com.final_project.request.LoginRequest;
 import com.final_project.request.UtenteRequest;
 import com.final_project.service.UtenteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,6 +39,17 @@ public class UtenteController {
         try {
             utenteService.registerUser(utenteDTO);
             return ResponseEntity.ok("Utente registrato con successo");
+        }catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "Login", description = "Login")
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
+        try {
+            String token = utenteService.loginUser(loginRequest.getEmail(), loginRequest.getPassword());
+            return ResponseEntity.ok(token);
         }catch (RuntimeException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
