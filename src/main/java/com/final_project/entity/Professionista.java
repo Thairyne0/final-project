@@ -34,6 +34,9 @@ public class Professionista {
         private String provincia;
         private String cap;
         private String email;
-        private String imagePath;
+
+        @Lob
+        @Column(columnDefinition = "BYTEA")
+        private byte[] immagineOfficina;
 
 }

@@ -6,6 +6,7 @@ import com.final_project.request.ProfessionistaRequest;
 import com.final_project.service.ProfessionistaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,12 +28,12 @@ public class ProfessionistaController {
 
     private final ProfessionistaService professionistaService;
 
-    private final ProfessionistaRepository professionistaRepositroy;
+    private final ProfessionistaRepository professionistaRepository;
 
     @Operation(summary = "Trova tutti i professionisti", description = "Restituisce una lista di tutti i professionisti")
     @GetMapping
     public List<Professionista> getAllProfessionisti() {
-        return professionistaRepositroy.findAll();
+        return professionistaRepository.findAll();
     }
 
     @Operation(summary = "Crea un nuovo professionista", description = "Restituisce il professionista creato")
@@ -43,17 +44,36 @@ public class ProfessionistaController {
     }
 
 
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
+    @PostMapping("/{id}/upload")
+    public ResponseEntity<String> uploadImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
         try {
-            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-            Path path = Paths.get(UPLOAD_DIR + fileName);
-            Files.createDirectories(path.getParent());
-            Files.write(path, file.getBytes());
+            Professionista professionista = professionistaRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Professionista non trovato"));
 
-            return ResponseEntity.ok("/uploads/mechanics/" + fileName);
+            professionista.setImmagineOfficina(file.getBytes());
+            professionistaRepository.save(professionista);
+
+            return ResponseEntity.ok("Immagine caricata con successo!");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Errore durante l'upload");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Errore durante l'upload");
+        }
+    }
+
+    @GetMapping("/{id}/image")
+    public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
+        try {
+            Professionista professionista = professionistaRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Professionista non trovato"));
+
+            if (professionista.getImmagineOfficina() == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .body(professionista.getImmagineOfficina());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
