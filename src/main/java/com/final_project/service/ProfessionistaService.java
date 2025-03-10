@@ -31,13 +31,14 @@ public class ProfessionistaService {
         professionista.setUtente(utente);
         professionista.setNome(utente.getNome());
         professionista.setCognome(utente.getCognome());
-        professionista.setEmail(professionista.getEmail());
-        professionista.setNomeAzienda(professionista.getNomeAzienda());
-        professionista.setRegione(professionista.getRegione());
-        professionista.setIndirizzo(professionista.getIndirizzo());
-        professionista.setCitta(professionista.getCitta());
-        professionista.setProvincia(professionista.getProvincia());
-        professionista.setCap(professionista.getCap());
+        professionista.setEmail(professionistaRequest.getEmail());
+        professionista.setNomeAzienda(professionistaRequest.getNomeAzienda());
+        professionista.setRegione(professionistaRequest.getRegione());
+        professionista.setIndirizzo(professionistaRequest.getIndirizzo());
+        professionista.setCitta(professionistaRequest.getCitta());
+        professionista.setProvincia(professionistaRequest.getProvincia());
+        professionista.setCap(professionistaRequest.getCap());
+        
 
         return professionistaRepository.save(professionista);
     }

@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -49,7 +50,7 @@ public class UtenteController {
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
         try {
             String token = utenteService.loginUser(loginRequest.getEmail(), loginRequest.getPassword());
-            return ResponseEntity.ok(token);
+            return ResponseEntity.ok().body(Map.of("token", token));
         }catch (RuntimeException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

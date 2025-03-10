@@ -1,22 +1,28 @@
 package com.final_project.service;
 
 import com.final_project.DTO.UtenteDTO;
+import com.final_project.config.JwtUtil;
 import com.final_project.entity.Utente;
 import com.final_project.repository.UtenteRepository;
 import com.final_project.request.UtenteRequest;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class UtenteService {
 
     @Autowired
     private UtenteRepository utenteRepository;
 
+    private final JwtUtil jwtUtil;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
+
 
 
     public boolean existsByEmail(String email) {
@@ -46,26 +52,6 @@ public class UtenteService {
         return utenteRepository.save(utente);
 
     }
-//
-//    @Transactional
-//    public Utente creaUtente(UtenteRequest utenteRequest) {
-//        if (utenteRepository.existsByEmail(utenteRequest.getEmail())) {
-//            throw new IllegalStateException("Email già in uso");
-//        }
-//        if (utenteRepository.existsByUsername(utenteRequest.getUsername())) {
-//            throw new IllegalStateException("Username già in uso");
-//        }
-//
-//        Utente utente = new Utente();
-//        utente.setUsername(utenteRequest.getUsername());
-//        utente.setEmail(utenteRequest.getEmail());
-//        utente.setPassword(passwordEncoder.encode(utenteRequest.getPassword()));
-//        utente.setNome(utenteRequest.getNome());
-//        utente.setCognome(utenteRequest.getCognome());
-//        utente.setIsAPro(utenteRequest.getIsAPro());
-//
-//        return utenteRepository.save(utente);
-//    }
 
     public String loginUser(String email, String password) {
         Utente utente = utenteRepository.findByEmail(email)
@@ -75,7 +61,7 @@ public class UtenteService {
             throw new RuntimeException("Password errata");
         }
 
-        return "Login effettuato con successo";
+        return jwtUtil.generateToken(utente.getEmail(), utente.getId());
     }
 
 }

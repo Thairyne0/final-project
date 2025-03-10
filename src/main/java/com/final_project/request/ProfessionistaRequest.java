@@ -5,13 +5,14 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProfessionistaRequest {
 
-    @NotBlank(message = "L'ID utente è obbligatorio")
+    @NotNull(message = "L'ID utente è obbligatorio")
     private Long utenteId;
 
     @NotBlank(message = "Il nome è obbligatorio")
@@ -45,5 +46,7 @@ public class ProfessionistaRequest {
     @NotBlank(message = "L'email è obbligatoria")
     @Email(message = "Formato email non valido")
     private String email;
+//
+//    private byte[] immagine;
 
 }

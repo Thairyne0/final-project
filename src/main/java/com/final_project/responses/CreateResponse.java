@@ -1,4 +1,4 @@
-package com.epicEnergyServices.responses;
+package com.final_project.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

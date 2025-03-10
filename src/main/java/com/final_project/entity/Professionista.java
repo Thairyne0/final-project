@@ -35,8 +35,8 @@ public class Professionista {
         private String cap;
         private String email;
 
-        @Lob
-        @Column(columnDefinition = "BYTEA")
-        private byte[] immagineOfficina;
+//        @Lob
+//        @Column(columnDefinition = "BYTEA")
+//        private byte[] immagineOfficina;
 
 }
