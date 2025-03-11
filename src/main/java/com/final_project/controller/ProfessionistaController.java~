@@ -19,7 +19,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -49,16 +48,7 @@ public class ProfessionistaController {
         }
     }
 
-    @Operation(summary = "Ottieni i dettagli di un professionista")
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getProfessionistaById(@PathVariable Long id) {
-        Optional<Professionista> professionista = professionistaRepository.findById(id);
-        if (professionista.isPresent()) {
-            return ResponseEntity.ok(professionista.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Professionista non trovato");
-        }
-    }
+    
 
 }
 
