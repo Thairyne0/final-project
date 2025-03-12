@@ -4,6 +4,9 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Data
 public class PrenotazioneRequest {
 
@@ -42,5 +45,18 @@ public class PrenotazioneRequest {
 
     @NotBlank(message = "Il CAP è obbligatorio")
     private String cap;
+
+    @NotBlank(message = "L'ID del professionista è obbligatorio")
+    private Long idProfessionista;
+
+    @NotBlank(message = "L'ID dell'utente è obbligatorio")
+    private Long utenteId;
+
+    @NotBlank(message = "La data della prenotazione è obbligatoria")
+    private LocalDate dataPrenotazione;
+
+    @NotBlank(message = "L'orario della prenotazione è obbligatorio")
+    private LocalTime orarioPrenotazione;
+
 }
 

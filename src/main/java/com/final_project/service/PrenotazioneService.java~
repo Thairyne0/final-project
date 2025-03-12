@@ -5,8 +5,11 @@ import com.final_project.entity.Professionista;
 import com.final_project.entity.Utente;
 import com.final_project.repository.PrenotazioneRepository;
 import com.final_project.request.PrenotazioneRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalTime;
 
 @Service
 public class PrenotazioneService {
@@ -35,7 +38,8 @@ public class PrenotazioneService {
         prenotazione.setProvincia(prenotazioneRequest.getProvincia());
         prenotazione.setCap(prenotazioneRequest.getCap());
         prenotazione.setDataPrenotazione(prenotazioneRequest.getDataPrenotazione());
-        prenotazione.setOrarioPrenotazione(prenotazioneRequest.getOrarioPrenotazione());
+        LocalTime orarioPrenotazione = LocalTime.parse(prenotazioneRequest.getOrarioPrenotazione());
+        prenotazione.setOrarioPrenotazione(orarioPrenotazione);
         prenotazione.setProfessionista(professionista);
         prenotazione.setUtente(utente);
 

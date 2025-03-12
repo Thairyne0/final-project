@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Entity
 @Table(name = "prenotazioni")
 @Data
@@ -30,4 +33,13 @@ public class Prenotazione {
     private String citta;
     private String provincia;
     private String cap;
+
+    private LocalDate dataPrenotazione;
+    private LocalTime orarioPrenotazione;
+
+    @ManyToOne
+    private Professionista professionista;
+
+    @ManyToOne
+    private Utente utente;
 }
