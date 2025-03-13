@@ -8,6 +8,7 @@ import com.final_project.repository.ProfessionistaRepository;
 import com.final_project.repository.UtenteRepository;
 import com.final_project.request.PrenotazioneRequest;
 import com.final_project.service.PrenotazioneService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +46,13 @@ public class PrenotazioneController {
 
         Prenotazione nuovaPrenotazione = prenotazioneService.creaPrenotazione(prenotazioneRequest, professionista, utente);
         return ResponseEntity.ok(nuovaPrenotazione);
+    }
+
+    @Operation(summary = "Ottieni prenotazioni per professionista")
+    @GetMapping("/{idProfessionista}")
+    public ResponseEntity<List<Prenotazione>> getPrenotazioniPerProfessionista(@PathVariable Long idProfessionista) {
+        List<Prenotazione> prenotazioni = prenotazioneRepository.findByProfessionista_IdProfessionista(idProfessionista);
+        return ResponseEntity.ok(prenotazioni);
     }
 
     @GetMapping
