@@ -60,6 +60,14 @@ public class ProfessionistaController {
         }
     }
 
+    @Operation(summary = "Ricerca professionisti per nome, città o CAP")
+    @GetMapping("/search")
+    public ResponseEntity<List<Professionista>> searchProfessionisti(@RequestParam String query) {
+        List<Professionista> professionisti = professionistaRepository
+                .findByNomeContainingIgnoreCaseOrCittaContainingIgnoreCaseOrCapContainingIgnoreCase(query, query, query);
+        return ResponseEntity.ok(professionisti);
+    }
+
 }
 
 
