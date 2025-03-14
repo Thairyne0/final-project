@@ -10,6 +10,7 @@ import com.final_project.request.PrenotazioneRequest;
 import com.final_project.service.PrenotazioneService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,6 +54,15 @@ public class PrenotazioneController {
     public ResponseEntity<List<Prenotazione>> getPrenotazioniPerProfessionista(@PathVariable Long idProfessionista) {
         List<Prenotazione> prenotazioni = prenotazioneRepository.findByProfessionista_IdProfessionista(idProfessionista);
         return ResponseEntity.ok(prenotazioni);
+    }
+
+    @Operation(summary = "Ottieni prenotazione per id)")
+    @GetMapping("/prenotazione/{idPrenotazione}")
+    public ResponseEntity<Prenotazione> getPrenotazioneById(@PathVariable Long idPrenotazione) {
+        System.out.println("Richiesta per prenotazione con ID: " + idPrenotazione);
+        return prenotazioneRepository.findById(idPrenotazione)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @GetMapping
