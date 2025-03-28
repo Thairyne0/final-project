@@ -50,7 +50,11 @@ public class UtenteController {
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
         try {
             String token = utenteService.loginUser(loginRequest.getEmail(), loginRequest.getPassword());
-            return ResponseEntity.ok().body(Map.of("token", token));
+
+            return ResponseEntity.ok().body(Map.of(
+                    "token", token,
+                    "userId", utenteRepository.findByEmail(loginRequest.getEmail()).get().getId()
+            ));
         }catch (RuntimeException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
